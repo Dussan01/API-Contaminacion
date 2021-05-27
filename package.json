@@ -1,0 +1,33 @@
+{
+    "name": "api-contaminacion",
+    "version": "1.0.0",
+    "description": "Desarrollo de API para el semillero FETSOCIETY de Contaminación invisible para investigación",
+    "main": "index.js",
+    "scripts": {
+        "build": "babel src --out-dir build",
+        "dev": "nodemon src/index.js --exec babel-node",
+        "start": "node build/index"
+    },
+    "author": "Kevin Andrés Dussan Fierro, Raul Hernando Torrejano Luna, Luis Fernando Muñoz Suaza, Eduar Andrés Bonilla Garcia, Henry Mauricio Losada Barragan.",
+    "license": "ISC",
+    "dependencies": {
+        "@babel/polyfill": "^7.12.1",
+        "bcryptjs": "^2.4.3",
+        "cors": "^2.8.5",
+        "dotenv": "^8.6.0",
+        "express": "^4.17.1",
+        "express-fileupload": "^1.2.0",
+        "helmet": "^4.6.0",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.12.11",
+        "morgan": "^1.10.0",
+        "multer": "^1.4.2"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.12.10",
+        "@babel/core": "^7.12.10",
+        "@babel/node": "^7.12.10",
+        "@babel/preset-env": "^7.12.11",
+        "nodemon": "^2.0.6"
+    }
+}
