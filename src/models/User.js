@@ -11,6 +11,9 @@ const userSchema = new Schema({
     apellidos: {
         type: String,
     },
+    universidad: {
+        type: String
+    },
     telefono: {
         type: Number,
     },

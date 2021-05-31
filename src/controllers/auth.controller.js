@@ -5,7 +5,8 @@ import config from "../config";
 
 
 
-export const signup = async(req, res) => {
+export const signup = async (req, res) => {
+
     try {
         const { email, nombres, apellidos, telefono, password, roles } = req.body;
         const newUser = new User({
@@ -14,6 +15,8 @@ export const signup = async(req, res) => {
             nombres,
             apellidos,
             telefono,
+            universidad,
+            roles,
             password: await User.encryptPassword(password)
         });
 
@@ -31,7 +34,7 @@ export const signup = async(req, res) => {
             expiresIn: 86400,
         })
         res.status(200).json({ token })
-        res.status(200).json('Registrado')
+
 
     } catch (error) {
         res.status(400).json(error)
@@ -39,10 +42,10 @@ export const signup = async(req, res) => {
 
 
 }
-export const signin = async(req, res) => {
+export const signin = async (req, res) => {
+
     try {
         const userFound = await User.findOne({ email: req.body.email }).populate("roles");
-
         if (!userFound) return res.status(400).json({ message: "Usuario no encontrado" });
         const macthPassword = await User.comparePassword(req.body.password, userFound.password);
         if (!macthPassword) return res.status(401).json({ token: null, message: "Contraseña invalida" });
@@ -50,6 +53,7 @@ export const signin = async(req, res) => {
             expiresIn: 86400
         })
         res.json({ token })
+
     } catch (error) {
         res.status(400).json(error)
     }

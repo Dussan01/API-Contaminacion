@@ -5,7 +5,8 @@ import pkg from "../package.json";
 import { createRoles } from "./libs/inialSetup";
 
 import authRoutes from "./routes/auth.routes";
-
+import adminRoutes from "./routes/admin.routes";
+import userRoutes from "./routes/user.routes";
 
 
 require('dotenv').config()
@@ -23,6 +24,7 @@ var corsOption = {
 app.use(cors(corsOption));
 /* EndCors */
 createRoles();
+// createTipos();
 global.__basedir = __dirname;
 
 app.set('pkg', pkg);
@@ -42,5 +44,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/user', userRoutes);
 
 export default app;

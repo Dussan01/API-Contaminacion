@@ -4,12 +4,14 @@ const fs = require('fs');
 const maxSize = 2 * 1024 * 1024;
 
 
+
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        if (req.params.idUser && req.params.idGrade && req.params.idMatter) {
-            cb(null, __basedir + `../../resources/static/assets/uploads/${req.params.idUser}/${req.params.idGrade}/${req.params.idMatter}`);
+        if (req.params.idUser) {
+
+            cb(null, __basedir + `/resources/static/assets/uploads/${req.params.idUser}`);
         } else {
-            cb(null, __basedir + "../../resources/static/assets/uploads/");
+            cb(null, __basedir + "/resources/static/assets/uploads/");
         }
 
     },
@@ -28,3 +30,7 @@ let uploadFile = multer({
 
 let uploadFileMiddleware = util.promisify(uploadFile);
 module.exports = uploadFileMiddleware
+
+
+
+
