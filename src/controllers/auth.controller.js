@@ -6,35 +6,36 @@ import config from "../config";
 
 
 export const signup = async (req, res) => {
+    const { email, nombres, apellidos, telefono, password, roles , universidad} = req.body;
+    const newUser = new User({
+
+        email,
+        nombres,
+        apellidos,
+        telefono,
+        universidad,
+        roles,
+        password: await User.encryptPassword(password)
+    });
+
+    if (roles) {
+        const foundRoles = await Role.find({ name: { $in: roles } })
+        newUser.roles = foundRoles.map(role => role._id)
+    } else {
+        const role = await Role.findOne({ name: "usuario" })
+        newUser.roles = [role._id]
+    }
+    const savedUser = await newUser.save()
+    console.log(savedUser);
+
+    const token = jwt.sign({ id: savedUser._id }, config.SECRET, {
+        expiresIn: 86400,
+    })
+    res.status(200).json({ token })
+
 
     try {
-        const { email, nombres, apellidos, telefono, password, roles } = req.body;
-        const newUser = new User({
-
-            email,
-            nombres,
-            apellidos,
-            telefono,
-            universidad,
-            roles,
-            password: await User.encryptPassword(password)
-        });
-
-        if (roles) {
-            const foundRoles = await Role.find({ name: { $in: roles } })
-            newUser.roles = foundRoles.map(role => role._id)
-        } else {
-            const role = await Role.findOne({ name: "usuario" })
-            newUser.roles = [role._id]
-        }
-        const savedUser = await newUser.save()
-        console.log(savedUser);
-
-        const token = jwt.sign({ id: savedUser._id }, config.SECRET, {
-            expiresIn: 86400,
-        })
-        res.status(200).json({ token })
-
+       
 
     } catch (error) {
         res.status(400).json(error)

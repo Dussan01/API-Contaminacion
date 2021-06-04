@@ -128,9 +128,10 @@ export const getBrands = async (req, res) => {
     }
 }
 export const getByIdBrand = async (req, res) => {
-    const brand = await Marca.findById(req.params.brandId)
-    console.log(brand)
-    res.status(200).json(brand);
+    const foundMarca = await Marca.find({ marca:  req.params.brandId })
+    const marca =  foundMarca.map(marca => marca._id)
+    console.log(foundMarca)
+    res.status(200).json(marca);
     try {
        
     } catch (error) {
@@ -169,12 +170,14 @@ export const deleteBrand = async (req, res) => {
 // CRUD MODELO
 
 export const createModelo = async (req, res) => {
-    const { marca, modelo} = req.body;
-    const newModelo = new Modelo({ marca, modelo });
-    const brandSaved = await newModelo.save()
-    res.status(201).json(brandSaved);
-
+    
     try {
+        const { marca, modelo} = req.body;
+    const newModelo = new Modelo({  modelo });
+    const foundMarca = await Marca.find({ marca:  marca })
+    newModelo.marca =  foundMarca.map(marca => marca._id)
+    newModelo.save()
+    res.status(200).json(newModelo);
        
     } catch (error) {
         res.status(400).json(error)
@@ -182,16 +185,16 @@ export const createModelo = async (req, res) => {
 }
 export const getModelos = async (req, res) => {
     try {
-        const infoModelos = await Marca.find().populate("roles");
+        const infoModelos = await Modelo.find().populate('marca')
         res.status(200).json(infoModelos)
     } catch (error) {
         res.status(400).json(error)
     }
 }
 export const getByIdModelo = async (req, res) => {
-    const brand = await Marca.findById(req.params.brandId)
-    console.log(brand)
-    res.status(200).json(brand);
+    const foundMarca = await Marca.find({ marca:  req.params.marca })
+    const marca =  foundMarca.map(marca => marca._id)
+    res.status(200).json(marca);
     try {
        
     } catch (error) {

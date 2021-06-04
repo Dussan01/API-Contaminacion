@@ -7,6 +7,7 @@ import { createRoles } from "./libs/inialSetup";
 import authRoutes from "./routes/auth.routes";
 import adminRoutes from "./routes/admin.routes";
 import userRoutes from "./routes/user.routes";
+import datosRoutes from "./routes/datos.routes";
 
 
 require('dotenv').config()
@@ -46,5 +47,6 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/datos', datosRoutes);
 
 export default app;
